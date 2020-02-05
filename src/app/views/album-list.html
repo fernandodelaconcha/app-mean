@@ -1,0 +1,26 @@
+<div class="headpage" *ngIf="identity">
+    <h1>{{title}}</h1>
+    <a class="btn btn-info" *ngIf="identity.role == 'ROLE_ADMIN'" [routerLink]="['/add-album']">Add album</a>
+    <ul class="albums-list">
+        <li *ngFor="let album of albums" class="album-item">
+            <div class="album-image" *ngIf="album.image != 'null'">
+                <a [routerLink]="['/album', album._id]"><img src="{{url + 'get-image-album/' + album.image}}"></a>
+            </div>
+            <div class="album-image" *ngIf="album.image == 'null'">
+                <a [routerLink]="['/album', album._id]"><div class="img-placeholder"></div></a>
+            </div>
+            <div class="album-title">
+                <a [routerLink]="['/album', album._id]">{{album.title}}</a>
+                <p class="album-artist-title">{{album.artist.name}}</p>
+                <div class="buttons" *ngIf="identity.role == 'ROLE_ADMIN'">
+                    <a class="btn btn-sm btn-warning" [routerLink]="['/edit-album', album._id]">Edit</a>
+                    <a class="btn btn-sm btn-danger" (click)="onDeleteConfirm(album._id)">Delete</a>
+                    <div class="sure" *ngIf="confirm == album._id">
+                        <a class="btn btn-sm btn-danger" (click)="onDeleteAlbum(album._id)">Delete</a>
+                        <a class="btn btn-sm btn-secondary" (click)="onCancelAlbum()">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

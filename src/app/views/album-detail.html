@@ -1,0 +1,32 @@
+<div class="album-box" *ngIf="album">
+    <div class="album-head-card">
+        <div class="album-image">
+            <img src="{{url + 'get-image-album/' + album.image}}" />
+        </div>
+        <div class="data">
+            <h1>{{album.title}}</h1>
+            <p>{{album.description}}</p>
+            <p>{{album.year}}</p>
+            <a class="btn btn-secondary" *ngIf="identity.role == 'ROLE_ADMIN'" [routerLink]="['/add-song', album._id]">Add Song</a>
+        </div>
+    </div>
+    <div class="gallery-songs" *ngIf="songs">
+        <ul class="songs-list">
+            <li *ngFor="let song of songs" (click)="startPlayer(song)" class="song-item">
+                <div class="title">
+                    <a class="btn btn-success play">▶️</a>
+                    {{song.number}} . {{song.name}} - {{song.duration}}
+                    <div class="buttons"*ngIf="identity.role == 'ROLE_ADMIN'">
+                        <a [routerLink]="['/edit-song', song._id]" class="btn btn-warning">Edit</a>
+                        <a (click)="onDeleteConfirm(song._id)" class="btn btn-danger">Delete</a>
+                    </div>
+                    <div class="sure" *ngIf="confirm == song._id">
+                        <a class="btn btn-danger" (click)="onDeleteSong(song._id)">Delete</a>
+                        <a class="btn btn-secondary" (click)="onCancelSong()">Cancel</a>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

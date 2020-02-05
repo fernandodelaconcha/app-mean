@@ -1,0 +1,27 @@
+<div class="headpage" *ngIf="identity">
+    <h1>{{title}}</h1>
+    <a class="btn btn-info" *ngIf="identity.role == 'ROLE_ADMIN'" [routerLink]="['/add-artist']">Add artist</a>
+    <ul class="pagination float-right">
+        <li class="page-item"><a class="page-link" [routerLink]="['/artists', prevPage]">&laquo;</a></li>
+        <li class="page-item"><a class="page-link" [routerLink]="['/artists', nextPage]">&raquo;</a></li>
+    </ul>
+    <ul class="artists-list">
+        <li *ngFor="let artist of artists" class="artist-item">
+            <div class="artist-image" *ngIf="artist.image !== 'null'">
+                <a [routerLink]="['/artist', artist._id]"><img src="{{url + 'get-image-artist/' + artist.image}}"></a>
+            </div>
+            <div class="artist-name">
+                <a [routerLink]="['/artist', artist._id]">{{artist.name}}</a>
+                <div class="buttons" *ngIf="identity.role == 'ROLE_ADMIN'">
+                    <a class="btn btn-sm btn-warning" [routerLink]="['/edit-artist', artist._id]">Edit</a>
+                    <a class="btn btn-sm btn-danger" (click)="onDeleteConfirm(artist._id)">Delete</a>
+                </div>
+                <div class="sure" *ngIf="confirm == artist._id">
+                
+                    <a class="btn btn-sm btn-danger" (click)="onDeleteArtist(artist._id)">Delete</a>
+                    <a class="btn btn-sm btn-secondary" (click)="onCancelArtist()">Cancel</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
